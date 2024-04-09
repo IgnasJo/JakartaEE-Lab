@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head>
+    <title>Hotels</title>
+    <h:outputStylesheet library="styles" name="table.css" />
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLink value="index.xhtml">Hotels</h:outputLink>
+            <h:outputLink value="housekeepers.xhtml">Housekeepers</h:outputLink>
+        </h:panelGrid>
+    </h:form>
+    <h2>Hotels</h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="name" value="Name:"/>
+            <h:inputText id="name" value="#{hotels.hotelToCreate.name}" required="true" />
+            <h:outputLabel for="address" value="Address:"/>
+            <h:inputText id="address" value="#{hotels.hotelToCreate.address}" required="true" />
+            <h:outputLabel for="rating" value="Rating (1-10):"/>
+            <h:inputText id="rating" value="#{hotels.rating}" required="true" />
+            <h:message for="rating" style="color:red" />
+        </h:panelGrid>
+        <h:commandButton value="Add new hotel"
+                         actionListener="#{hotels.createHotel}"
+                         action="index?faces-redirect=true"/>
+    </h:form>
+    <h:dataTable value="#{hotels.allHotels}" var="hotel" styleClass="table">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Name" />
+            </f:facet>
+            <h:link value="#{hotel.name}" outcome="rooms?hotelId=#{hotel.id}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Address" />
+            </f:facet>
+            <h:outputText value="#{hotel.address}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Rating (1-10)" />
+            </f:facet>
+            <h:outputText value="#{hotel.rating}" />
+        </h:column>
+    </h:dataTable>
+
+</h:body>
+</html>

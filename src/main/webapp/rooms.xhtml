@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Rooms</title>
+    <h:outputStylesheet library="styles" name="table.css" />
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLink value="index.xhtml">Hotels</h:outputLink>
+            <h:outputLink value="housekeepers.xhtml">Housekeepers</h:outputLink>
+        </h:panelGrid>
+    </h:form>
+    <h:panelGrid columns="2">
+        <h:panelGrid columns="1">
+            <h2>Rooms of #{hotelRooms.hotel.name} hotel</h2>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="number" value="Number:"/>
+                    <h:inputText id="number" value="#{hotelRooms.roomToCreate.number}" required="true" />
+                    <h:outputLabel for="capacity" value="Capacity (max guests):"/>
+                    <h:inputText id="capacity" value="#{hotelRooms.roomToCreate.capacity}" required="true" />
+                    <h:outputLabel for="floor" value="Floor:"/>
+                    <h:inputText id="floor" value="#{hotelRooms.roomToCreate.floor}" required="true" />
+                    <h:outputLabel for="price" value="Price per night in dollars:"/>
+                    <h:inputText id="price" value="#{hotelRooms.roomToCreate.dollarPricePerNight}" required="true" />
+                    <h:outputLabel for="housekeepers" value="Housekeepers (comma separated):"/>
+                    <h:inputText id="housekeepers" value="#{hotelRooms.housekeepers}" required="true" />
+                </h:panelGrid>
+                <p style="color:red">#{hotelRooms.validator.message}</p>
+                <h:commandButton value="Add new room"
+                                 actionListener="#{hotelRooms.createRoom}"
+                                 action="#{'rooms?faces-redirect=true&amp;hotelId='.concat(hotelRooms.hotel.id)}">
+                    <f:param name="hotelId" value="#{hotelRooms.hotel.id}" />
+                </h:commandButton>
+            </h:form>
+        </h:panelGrid>
+        <h:panelGrid columns="1">
+            <h3>List of available housekeepers</h3>
+            <ul>
+                <ui:repeat value="#{hotelRooms.allHousekeepers}" var="housekeeper">
+                    <li>#{housekeeper.name}</li>
+                </ui:repeat>
+            </ul>
+        </h:panelGrid>
+    </h:panelGrid>
+    <h:dataTable value="#{hotelRooms.hotel.rooms}" var="room" styleClass="table">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Number" />
+            </f:facet>
+            <h:outputText value="#{room.number}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Capacity" />
+            </f:facet>
+            <h:outputText value="#{room.capacity}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Floor" />
+            </f:facet>
+            <h:outputText value="#{room.floor}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Price per night in dollars" />
+            </f:facet>
+            <h:outputText value="#{room.dollarPricePerNight}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Housekeepers" />
+            </f:facet>
+            <ui:repeat value="#{room.getHousekeepers()}" var="housekeeper">
+                <h:outputText value="#{housekeeper.name}, " />
+            </ui:repeat>
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>

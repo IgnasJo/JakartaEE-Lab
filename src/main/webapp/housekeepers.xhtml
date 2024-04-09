@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Housekeepers</title>
+    <h:outputStylesheet library="styles" name="table.css" />
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLink value="index.xhtml">Hotels</h:outputLink>
+            <h:outputLink value="housekeepers.xhtml">Housekeepers</h:outputLink>
+        </h:panelGrid>
+    </h:form>
+    <h2>Housekeepers</h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="name" value="Name:"/>
+            <h:inputText id="name" value="#{housekeepers.housekeeperToCreate.name}" required="true" />
+            <h:outputLabel for="working-hours" value="Weekly working hours:"/>
+            <h:inputText id="working-hours" value="#{housekeepers.housekeeperToCreate.weeklyWorkingHours}" required="true" />
+        </h:panelGrid>
+        <h:commandButton value="Add new housekeeper"
+                         actionListener="#{housekeepers.createHousekeeper}"
+                         action="housekeepers?faces-redirect=true"/>
+    </h:form>
+    <h:dataTable value="#{housekeepers.allHousekeepers}" var="housekeeper" styleClass="table">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Name" />
+            </f:facet>
+            <h:outputText value="#{housekeeper.name}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Weekly working hours" />
+            </f:facet>
+            <h:outputText value="#{housekeeper.weeklyWorkingHours}" />
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>
