@@ -41,6 +41,14 @@
             </f:facet>
             <h:outputText value="#{housekeeper.weeklyWorkingHours}" />
         </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Hotel:Room" />
+            </f:facet>
+            <ui:repeat value="#{housekeeper.rooms}" var="room">
+                <h:outputText value="#{room.hotel.name}:#{room.number}, " />
+            </ui:repeat>
+        </h:column>
     </h:dataTable>
 </h:body>
 </html>

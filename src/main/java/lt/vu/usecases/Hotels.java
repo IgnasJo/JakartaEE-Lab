@@ -3,7 +3,9 @@ package lt.vu.usecases;
 import lombok.Getter;
 import lombok.Setter;
 import lt.vu.entities.Hotel;
+import lt.vu.entities.Room;
 import lt.vu.persistence.HotelsDAO;
+import lt.vu.persistence.RoomsDAO;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -21,6 +23,13 @@ public class Hotels {
 
     @Inject
     private HotelsDAO hotelsDAO;
+
+    @Inject
+    private RoomsDAO roomsDAO;
+
+    @Getter
+    @Setter
+    private List<Room> allRooms;
 
     @Getter
     @Setter
@@ -40,6 +49,7 @@ public class Hotels {
     @PostConstruct
     public void init(){
         loadAllHotels();
+        this.allRooms = roomsDAO.loadAll();
     }
 
     @Transactional
@@ -51,6 +61,16 @@ public class Hotels {
         }
         this.hotelToCreate.setRating(this.getRating());
         this.hotelsDAO.persist(hotelToCreate);
+    }
+
+    public int getHotelRoomCount(Hotel hotel) {
+        int roomCount = 0;
+        for (Room room : allRooms) {
+           if (room.getHotel() == hotel) {
+               ++roomCount;
+           }
+        }
+        return roomCount;
     }
 
     private void loadAllHotels(){

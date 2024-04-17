@@ -5,11 +5,14 @@ import lombok.NoArgsConstructor;
 import lt.vu.enums.CleanStatus;
 
 import javax.persistence.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -56,4 +59,8 @@ public class Room {
     @Enumerated(EnumType.STRING)
     @Column(name = "CLEAN_STATUS")
     private CleanStatus cleanStatus = CleanStatus.UNDER_MAINTENANCE;
+
+    public Set<ConstraintViolation<Room>> validateConstraints(Validator validator) {
+        return validator.validate(this);
+    }
 }
