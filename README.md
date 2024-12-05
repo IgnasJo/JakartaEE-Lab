@@ -1,2 +1,1 @@
-# Java EE lab 1
-## Jakarta EE little demo website about managing hotels
+## Little demo website about managing hotels
